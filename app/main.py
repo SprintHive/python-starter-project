@@ -24,6 +24,17 @@ def testImports():
     except:
         return 'Imports failed'
 
+@app.route('/TestLogging')
+def testLogging():
+    try:
+        from utils import logging_utils
+        logging_utils.setup_logging()
+        logging_utils.test_logging()
+        return 'Logging worked'
+    except:
+        return 'Logging failed'
+
+
 
 if __name__ == "__main__":
     # Only for debugging while developing
