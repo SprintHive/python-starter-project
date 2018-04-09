@@ -27,6 +27,8 @@
 
 ### Docker build
 
+The build size is currently 711 MB
+
 5. `docker build -t python-starter-test .`
 6. `docker run --name python-starter-test -e PYTHONUNBUFFERED=0 -p 9090:9090 -p 9191:9191 python-starter-test`
 
