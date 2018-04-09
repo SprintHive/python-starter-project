@@ -17,10 +17,10 @@ RUN pip install -r /app/requirements.txt
 
 # UWSGI environment [not clear these are used]
 ENV UWSGI_INI /etc/uwsgi/uwsgi.ini
-#ENV LISTEN_PORT 3031
+#ENV LISTEN_PORT 9090
 
 # Expose ports
-EXPOSE 5002 3031 9191 80 90
+EXPOSE 9090 9191
 
 # Place any commands here
 #CMD ["python", "test_app.py"]
