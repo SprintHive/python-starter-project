@@ -14,6 +14,6 @@ Each branch is documented within.
 
 To get started:
 
-* `git branch ground-zero`
+* `git checkout ground-zero`
 
 *That's it!*
