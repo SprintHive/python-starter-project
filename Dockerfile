@@ -19,6 +19,9 @@ RUN pip install -r /app/requirements.txt
 ENV UWSGI_INI /etc/uwsgi/uwsgi.ini
 #ENV LISTEN_PORT 9090
 
+# Python logging
+ENV LOG_CFG ./logging.yml
+
 # Expose ports
 EXPOSE 9090 9191
 
