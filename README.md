@@ -8,7 +8,7 @@
 
 ## Ports
 
-* 3031: uwsgi (server)
+* 9090: uwsgi (server)
 * 9191: uwsgitop (server stats)
 
 
@@ -28,18 +28,18 @@
 ### Docker build
 
 5. `docker build -t python-starter-test .`
-6. `docker run --name python-starter-test -e PYTHONUNBUFFERED=0 -p 3031:3031 -p 9191:9191 python-starter-test`
+6. `docker run --name python-starter-test -e PYTHONUNBUFFERED=0 -p 9090:9090 -p 9191:9191 python-starter-test`
 
 ### Tests via curl
 
-7. Base URL `curl 127.0.0.1:3031`
-8. Hello World `curl 127.0.0.1:3031/hellofromflask`
-9. Import tests `curl 127.0.0.1:3031/TestImports`
+7. Base URL `curl 127.0.0.1:9090`
+8. Hello World `curl 127.0.0.1:9090/HelloWorld`
+9. Import tests `curl 127.0.0.1:9090/TestImports`
 
 ### UWSGI statistics and load testing
 
 10. For server stats, `uwsgitop 127.0.0.1:9191`
-11. For load-testing (note trailing slash), `ab -n 1000 -c 2 http://127.0.0.1:3031/`
+11. For load-testing (note trailing slash), e.g. `ab -n 1000 -c 2 http://127.0.0.1:9090/`
 
 
 ### Tear down
@@ -56,7 +56,7 @@
 
 2. Testing uwsgi by starting it manually:
 
-    `uwsgi --http-socket 0.0.0.0:3031 --wsgi-file app/main.py --master --processes 4 --threads 2 --stats 0.0.0.0:9191 --callable app`
+    `uwsgi --http-socket 0.0.0.0:9090 --wsgi-file app/main.py --master --processes 4 --threads 2 --stats 0.0.0.0:9191 --callable app`
 
 3. UWSGI settings: `app/uwsgi.ini`
 
