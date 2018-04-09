@@ -1,68 +1,65 @@
 # Python Starter Project
 
+## Contact details
+
 * Jonathan Zwart <jz@sprinthive.com>
-* Thurs 5 April 2018
+* Monday 9 April 2018 
 
-Start at http://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html
-
-1. `pip install uwsgi`
-
-2. `pip install uwsgitop`
-
-3. `uwsgi --http-socket 127.0.0.1:3031 --wsgi-file app/myflaskapp.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191 --callable app`
-
-4. `uwsgitop 127.0.0.1:9191`
-
-5. Single test: `curl 127.0.0.1:3031` -> `<span style='color:red'>I am app 1</span>`
-
-7. Load test: `ab -n 1000 -c 2 http://127.0.0.1:3031/`
-
-That's it!
 
 ## Ports
 
-* 5002: keepalive service (or container shuts down)
-* 3031: uwsgi
-* 9191: uwsgitop
-
-## Dockerization
-
-1. `cd python-starter-project`
-
-2. `docker build -t helloworld .`
-
-3. `docker run --name helloworld -e PYTHONUNBUFFERED=0 -p 5002:5002 -p 3031:3031 -p 9191:9191 helloworld`
-
-4. List ports: `docker port helloworld`
-
-5. From outside: `curl 127.0.0.1:5002/hello`
-
-6. From outside: `curl 127.0.0.1:5002/TestImports`
-
-7. If you need SSH access, do: `docker exec -t -i helloworld /bin/bash`
-
-8. Now repeat (3)-(5) above from within the container:
-
-a. `uwsgi --http-socket 127.0.0.1:3031 --wsgi-file app/myflaskapp.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191 --callable app`
-
-b. `uwsgitop 127.0.0.1:9191`
-
-c. Single test: `curl 127.0.0.1:3031` -> `<span style='color:red'>I am app 1</span>`
+* 3031: uwsgi (server)
+* 9191: uwsgitop (server stats)
 
 
-9. Now launch uwsgi from within the container manually:
+## References
 
-`uwsgi --http-socket 0.0.0.0:3031 --wsgi-file app/myflaskapp.py --master --processes 4 -\
--threads 2 --stats 0.0.0.0:9191 --callable app`
+* http://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html
 
-10. From outside, run: `uwsgitop 127.0.0.1:9191`
+##Key steps
 
-11. From outside, run: `curl 127.0.0.1:3031`
+### Repository check-out
 
-12. Load test: `ab -n 1000 -c 2 http://127.0.0.1:3031/`
+1. `gcloud init`
+2. `gcloud source repos clone python-starter-project --project=jons-world`
+3. `cd python-starter-project`
+4. `git checkout ground-zero`
 
-13. Now modify Dockerfile to launch CMD: `launch_server.sh`
+### Docker build
 
-14. Repeat (10) and (11)
+5. `docker build -t python-starter-test .`
+6. `docker run --name python-starter-test -e PYTHONUNBUFFERED=0 -p 3031:3031 -p 9191:9191 python-starter-test`
 
-Hey presto!
+### Tests via curl
+
+7. Base URL `curl 127.0.0.1:3031`
+8. Hello World `curl 127.0.0.1:3031/hellofromflask`
+9. Import tests `curl 127.0.0.1:3031/TestImports`
+
+### UWSGI statistics and load testing
+
+10. For server stats, `uwsgitop 127.0.0.1:9191`
+11. For load-testing (note trailing slash), `ab -n 1000 -c 2 http://127.0.0.1:3031/`
+
+
+### Tear down
+
+12. `docker stop python-starter-test`
+13. `docker rm python-starter-test`
+14. `docker rmi python-starter-test`
+
+### Troubleshooting
+
+1. Shell access:
+ 
+     `docker exec -t -i python-starter-test /bin/bash`
+
+2. Testing uwsgi by starting it manually:
+
+    `uwsgi --http-socket 0.0.0.0:3031 --wsgi-file app/main.py --master --processes 4 --threads 2 --stats 0.0.0.0:9191 --callable app`
+
+3. UWSGI settings: `app/uwsgi.ini`
+
+4. Add new python modules in: `app/requirements.txt`
+
+*That's it!*
