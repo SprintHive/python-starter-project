@@ -10,16 +10,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '<span style='color:red'>I am app 1</span>'
+    return 'Base URL!'
 
-@app.route('/hellofromflask')
+@app.route('/HelloWorld')
 def hello():
-    return 'Hello World from Flask'
+    return 'Hello World!'
 
 @app.route('/TestImports')
 def testImports():
-
-    print 'Hello world'
     try:
         from flask import Flask
         return 'Imports worked'
