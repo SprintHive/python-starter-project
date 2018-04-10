@@ -5,12 +5,10 @@
 * Jonathan Zwart <jz@sprinthive.com>
 * Monday 9 April 2018 
 
-
 ## Ports
 
 * 9090: uwsgi (server)
 * 9191: uwsgitop (server stats)
-
 
 ## References
 
@@ -27,10 +25,17 @@
 
 ### Docker build
 
-The build size is currently 711 MB
+This image size is approx. 700MB
 
-5. `docker build -t python-starter-test .`
-6. `docker run --name python-starter-test -e PYTHONUNBUFFERED=0 -p 9090:9090 -p 9191:9191 python-starter-test`
+5. `docker build -t python-starter-project .`
+6. `docker run --name python-starter-project -e PYTHONUNBUFFERED=0 -p 9090:9090 -p 9191:9191 python-starter-project`
+
+### Docker build (alpine - EXPERIMENTAL)
+
+This image size is approx. 150MB
+
+5. `docker build -f Dockerfile_alpine -t python-starter-project-alpine .`
+6. `docker run --name python-starter-project-alpine -e PYTHONUNBUFFERED=0 -p 9090:9090 -p 9191:9191 python-starter-project-alpine`
 
 ### Tests via curl
 
@@ -43,18 +48,28 @@ The build size is currently 711 MB
 10. For server stats, `uwsgitop 127.0.0.1:9191`
 11. For load-testing (note trailing slash), e.g. `ab -n 1000 -c 2 http://127.0.0.1:9090/`
 
-
 ### Tear down
 
-12. `docker stop python-starter-test`
-13. `docker rm python-starter-test`
-14. `docker rmi python-starter-test`
+12. `docker stop python-starter-project`
+13. `docker rm python-starter-project`
+14. `docker rmi python-starter-project`
+
+### Minikube deployment
+
+1. minikube start
+2. eval $(minikube docker-env)
+3. Run the Docker build command above
+4. kubectl create -f config/kubernetes/deployment.yaml
+5. kubectl get po -w
+6. kubectl port-forward <pod name> 9090:9090
+7. Browse to http://localhost:9090/HelloWorld
+8. eval $(minikube docker-env -u)
 
 ### Troubleshooting
 
 1. Shell access:
  
-     `docker exec -t -i python-starter-test /bin/bash`
+     `docker exec -t -i python-starter-project /bin/bash`
 
 2. Testing uwsgi by starting it manually:
 

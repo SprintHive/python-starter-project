@@ -4,7 +4,7 @@
 def utils = new io.fabric8.Utils()
 clientsNode{
   def newVersion = ''
-  def componentName = 'pdf-address-extractor'
+  def componentName = 'python-starter-project'
   def resourcesDir = 'resources/kubernetes'
 
   checkout scm
@@ -20,7 +20,7 @@ clientsNode{
   }
 
   stage('Rollout to testing') {
-    def namespace = 'origination-demo-test'
+    def namespace = 'python-starter-project'
     def deployStage = 'test'
 
     def apiObjects = kubeObjectListFromTemplates{

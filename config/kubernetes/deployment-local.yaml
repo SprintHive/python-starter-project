@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: python-starter-project
+  name: python-starter-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: python-starter-project
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: python-starter-project
+    spec:
+      containers:
+      - image: python-starter-project
+        imagePullPolicy: Never
+        name: python-starter-project
+        ports:
+        - containerPort: 9090
+      restartPolicy: Always
