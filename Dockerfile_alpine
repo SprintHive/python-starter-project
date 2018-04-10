@@ -3,7 +3,7 @@ FROM tiangolo/uwsgi-nginx-flask:python2.7-alpine3.7
 COPY ./app /app
 
 # Copy config files
-COPY ./resources/nginx/nginx.conf /etc/nginx/conf.d/
+COPY ./config/nginx/nginx.conf /etc/nginx/conf.d/
 
 # Install requirements
 # Note that changing requirements.txt will trigger a rebuild every time

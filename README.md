@@ -42,6 +42,7 @@ This image size is approx. 150MB
 7. Base URL `curl 127.0.0.1:9090`
 8. Hello World `curl 127.0.0.1:9090/HelloWorld`
 9. Import tests `curl 127.0.0.1:9090/TestImports`
+10. Logging tests `curl 127.0.0.1:9090/TestLogging`
 
 ### UWSGI statistics and load testing
 
