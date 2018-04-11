@@ -7,8 +7,8 @@
 
 ## Ports
 
-* 9090: uwsgi (server)
-* 9191: uwsgitop (server stats)
+* 8080: uwsgi (server)
+* 8181: uwsgitop (server stats)
 
 ## References
 
@@ -28,26 +28,26 @@
 This image size is approx. 700MB
 
 5. `docker build -t python-starter-project .`
-6. `docker run --name python-starter-project -e PYTHONUNBUFFERED=0 -p 9090:9090 -p 9191:9191 python-starter-project`
+6. `docker run --name python-starter-project -e PYTHONUNBUFFERED=0 -p 8080:8080 -p 8181:8181 python-starter-project`
 
 ### Docker build (alpine - EXPERIMENTAL)
 
 This image size is approx. 150MB
 
 5. `docker build -f Dockerfile_alpine -t python-starter-project-alpine .`
-6. `docker run --name python-starter-project-alpine -e PYTHONUNBUFFERED=0 -p 9090:9090 -p 9191:9191 python-starter-project-alpine`
+6. `docker run --name python-starter-project-alpine -e PYTHONUNBUFFERED=0 -p 8080:8080 -p 8181:8181 python-starter-project-alpine`
 
 ### Tests via curl
 
-7. Base URL `curl 127.0.0.1:9090`
-8. Hello World `curl 127.0.0.1:9090/HelloWorld`
-9. Import tests `curl 127.0.0.1:9090/TestImports`
-10. Logging tests `curl 127.0.0.1:9090/TestLogging`
+7. Base URL `curl 127.0.0.1:8080`
+8. Hello World `curl 127.0.0.1:8080/HelloWorld`
+9. Import tests `curl 127.0.0.1:8080/TestImports`
+10. Logging tests `curl 127.0.0.1:8080/TestLogging`
 
 ### UWSGI statistics and load testing
 
-10. For server stats, `uwsgitop 127.0.0.1:9191`
-11. For load-testing (note trailing slash), e.g. `ab -n 1000 -c 2 http://127.0.0.1:9090/`
+10. For server stats, `uwsgitop 127.0.0.1:8181`
+11. For load-testing (note trailing slash), e.g. `ab -n 1000 -c 2 http://127.0.0.1:8080/`
 
 ### Tear down
 
@@ -62,8 +62,8 @@ This image size is approx. 150MB
 3. Run the Docker build command above
 4. kubectl create -f config/kubernetes/deployment.yaml
 5. kubectl get po -w
-6. kubectl port-forward <pod name> 9090:9090
-7. Browse to http://localhost:9090/HelloWorld
+6. kubectl port-forward <pod name> 8080:8080
+7. Browse to http://localhost:8080/HelloWorld
 8. eval $(minikube docker-env -u)
 
 ### Troubleshooting
@@ -74,7 +74,7 @@ This image size is approx. 150MB
 
 2. Testing uwsgi by starting it manually:
 
-    `uwsgi --http-socket 0.0.0.0:9090 --wsgi-file app/main.py --master --processes 4 --threads 2 --stats 0.0.0.0:9191 --callable app`
+    `uwsgi --http-socket 0.0.0.0:8080 --wsgi-file app/main.py --master --processes 4 --threads 2 --stats 0.0.0.0:8181 --callable app`
 
 3. UWSGI settings: `app/uwsgi.ini`
 

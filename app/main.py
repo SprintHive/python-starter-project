@@ -13,6 +13,8 @@ from utils import logging_utils
 logging_utils.setup_logging()
 logging.info('Logging enabled in %s' % __name__)
 
+# ----------------------------------------------------------------------------------------
+
 
 @app.route('/')
 def index():
@@ -21,9 +23,10 @@ def index():
 # ----------------------------------------------------------------------------------------
 
 
-@app.route('/hello-world')
-def hello():
-    return 'Hello World!'
+@app.route('/ping')
+def ping():
+    """Required by the Kubernetes pod health check"""
+    return 'OK'
 
 # ----------------------------------------------------------------------------------------
 
@@ -48,6 +51,8 @@ def test_logging():
         return 'Logging test worked'
     except:
         return 'Logging test failed'
+
+# ----------------------------------------------------------------------------------------
 
 
 if __name__ == "__main__":

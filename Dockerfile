@@ -1,10 +1,12 @@
 FROM tiangolo/uwsgi-nginx-flask:python2.7
 
+ENV LISTEN_PORT 8080
+
 COPY ./app /app
 
 # Copy config files
-COPY config /etc/nginx/conf.d/
 COPY ./app/uwsgi.ini /etc/uwsgi/uwsgi.ini
+# COPY config /etc/nginx/conf.d/
 
 # Install requirements
 # Note that changing requirements.txt will trigger a rebuild every time
@@ -21,7 +23,7 @@ ENV UWSGI_INI /etc/uwsgi/uwsgi.ini
 ENV LOG_CFG ./logging.yml
 
 # Expose ports
-EXPOSE 9090 9191
+EXPOSE 8080 8181
 
 # Place any commands here
 #CMD ["python", "test_app.py"]
