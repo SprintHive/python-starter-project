@@ -2,4 +2,4 @@
 *.log
 */*.pyc
 */*/*.pyc
-config/application-local.yml
+config/application.yml
