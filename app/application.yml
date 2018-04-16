@@ -1,0 +1,8 @@
+# Default YAML file for Python Starter Project
+version: 1
+flask:
+    host: 0.0.0.0
+    port: 1492
+    debug: True
+example:
+    hello_world_string: Hello World!
