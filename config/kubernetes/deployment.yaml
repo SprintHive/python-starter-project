@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: $name
+    version: v1
+  name: $name-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: $name
+      version: v1
+  template:
+    metadata:
+      labels:
+        run: $name
+        version: v1
+    spec:
+      containers:
+      - image: $image
+        name: $name
+        livenessProbe:
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+          periodSeconds: 10
+          httpGet:
+            path: /ping
+            port: http
+        readinessProbe:
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 5
+          httpGet:
+            path: /ping
+            port: http
+        ports:
+        - name: http
+          containerPort: 8080
+      restartPolicy: Always

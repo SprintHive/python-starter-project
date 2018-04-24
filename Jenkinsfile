@@ -1,40 +1,44 @@
 #!/usr/bin/groovy
-@Library('github.com/fabric8io/fabric8-pipeline-library@v2.2.311')
-@Library('github.com/SprintHive/sprinthive-pipeline-library@debug')
-def utils = new io.fabric8.Utils()
-clientsNode{
-  def newVersion = ''
-  def componentName = 'python-starter-project'
-  def resourcesDir = 'resources/kubernetes'
+@Library('github.com/SprintHive/sprinthive-pipeline-library')
 
-  checkout scm
+def componentName = 'python-starter-project'
+def versionTag = ''
+def resourcesDir = 'config/kubernetes'
+def dockerImage
 
-  stage('Build and publish docker image') {
-      if (!fileExists ('Dockerfile')) {
-        throw new Exception('Missing Dockerfile')
-      }
+dockerNode(label: 'docker-builder') {
 
-      newVersion = publishDockerImage{
-        name = componentName
-      }
-  }
+    stage('Build and Publish docker image') {
+        checkout scm
+        versionTag = getNewVersion {}
+        dockerImage = "eu.gcr.io/jons-world/$componentName:${versionTag}"
 
-  stage('Rollout to testing') {
-    def namespace = 'python-starter-project'
-    def deployStage = 'test'
-
-    def apiObjects = kubeObjectListFromTemplates{
-      templates = [
-          readFile(resourcesDir + '/deployment.json'),
-          readFile(resourcesDir + '/service.json'),
-          readFile(resourcesDir + '/ingress-test.json')
-      ]
-      stage = deployStage
-      version = newVersion
-      name = componentName
+        container('docker') {
+            sh "docker build -t ${dockerImage} ."
+            def img = docker.image(dockerImage)
+            docker.withRegistry("https://eu.gcr.io", "gcr:honeypot-gcr-credentials") {
+                img.push()
+            }
+        }
     }
 
-    // Launch Service
-    kubernetesApply(file: apiObjects, environment: namespace)
-  }
+    stage('Rollout to Development') {
+        def namespace = 'dev'
+        def deployStage = 'development'
+
+        def kubeResources = kubeResourcesFromTemplates {
+            templates = [
+                readFile(resourcesDir + '/deployment.yaml'),
+                readFile(resourcesDir + '/service.yaml'),
+            ]
+            stage = deployStage
+            version = versionTag
+            image = dockerImage
+            name = componentName
+        }
+
+        for (String kubeResource : kubeResources) {
+            kubernetesApply(file: kubeResource, environment: namespace)
+        }
+    }
 }

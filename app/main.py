@@ -1,10 +1,6 @@
 # SprintHive Pty Ltd
 # Python Starter Project ('ground-zero')
 
-# Contact details
-# Jonathan Zwart <jz@sprinthive.com>
-# Monday 16 April 2018
-
 from flask import Flask
 
 app = Flask(__name__)

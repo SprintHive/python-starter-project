@@ -2,8 +2,8 @@
 
 ## Contact details
 
-* Jonathan Zwart <jz@sprinthive.com>
-* Monday 9 April 2018 
+* Jonathan Zwart / Dane Bezuidenhout
+* Tuesday 24 April 2018 
 
 ## Ports
 
@@ -18,31 +18,29 @@
 
 ### Repository check-out
 
-1. `gcloud init`
-2. `gcloud source repos clone python-starter-project --project=jons-world`
-3. `cd python-starter-project`
-4. `git checkout ground-zero`
+1. `git clone git@github.com:SprintHive/python-starter-project.git`
+2. `cd python-starter-project`
+3. `git checkout ground-zero`
 
 ### Docker build
 
 This image size is approx. 700MB
 
-5. `docker build -t python-starter-project .`
-6. `docker run --name python-starter-project -e PYTHONUNBUFFERED=0 -p 8080:8080 -p 8181:8181 python-starter-project`
+4. `docker build -t python-starter-project .`
+5. `docker run --name python-starter-project -e PYTHONUNBUFFERED=0 -p 8080:8080 -p 8181:8181 python-starter-project`
 
 ### Docker build (alpine - EXPERIMENTAL)
 
 This image size is approx. 150MB
 
-5. `docker build -f Dockerfile_alpine -t python-starter-project-alpine .`
-6. `docker run --name python-starter-project-alpine -e PYTHONUNBUFFERED=0 -p 8080:8080 -p 8181:8181 python-starter-project-alpine`
+6. `docker build -f Dockerfile_alpine -t python-starter-project-alpine .`
+7. `docker run --name python-starter-project-alpine -e PYTHONUNBUFFERED=0 -p 8080:8080 -p 8181:8181 python-starter-project-alpine`
 
 ### Tests via curl
 
-7. Base URL `curl 127.0.0.1:8080`
-8. Hello World `curl 127.0.0.1:8080/HelloWorld`
-9. Import tests `curl 127.0.0.1:8080/TestImports`
-10. Logging tests `curl 127.0.0.1:8080/TestLogging`
+8. Ping `curl 127.0.0.1:8080/ping`
+9. Import tests `curl 127.0.0.1:8080/test-imports`
+10. Logging tests `curl 127.0.0.1:8080/test-logging`
 
 ### UWSGI statistics and load testing
 
@@ -63,7 +61,7 @@ This image size is approx. 150MB
 4. kubectl create -f config/kubernetes/deployment.yaml
 5. kubectl get po -w
 6. kubectl port-forward <pod name> 8080:8080
-7. Browse to http://localhost:8080/HelloWorld
+7. Browse to http://localhost:8080/ping
 8. eval $(minikube docker-env -u)
 
 ### Troubleshooting
