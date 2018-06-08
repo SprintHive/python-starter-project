@@ -6,6 +6,7 @@ COPY app /app
 
 # Copy config files
 COPY config /config
+COPY config/nginx-health.conf /etc/nginx/conf.d/nginx-health.conf
 COPY config/uwsgi.ini /etc/uwsgi/uwsgi.ini
 
 # Install requirements
