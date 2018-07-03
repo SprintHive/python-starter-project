@@ -1,0 +1,24 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+    simple:
+        format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    complex:
+        format: '[%(levelname)-7.7s] [%(asctime)s] [%(funcName)20s()] L%(lineno)d %(message)s'
+
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: complex
+        stream: ext://sys.stdout
+
+loggers:
+    utils:
+        level: DEBUG
+        handlers: [console]
+        propagate: true
+
+root:
+    level: DEBUG
+    handlers: [console]

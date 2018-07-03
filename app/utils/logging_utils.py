@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 def setup_logging(
-    default_path='logging.yaml',
+    default_path='../config/logging.yaml',
     default_level=logging.INFO,
     default_format='%(levelname)-7.7s] [%(asctime)s] [%(funcName)20s()] L%(lineno)d %(message)s',
     env_key='LOG_CFG'

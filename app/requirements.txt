@@ -1,2 +1,3 @@
 uwsgi
 pyyaml
+python-logstash-async
