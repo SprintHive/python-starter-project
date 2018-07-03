@@ -1,30 +1,36 @@
 version: 1
 disable_existing_loggers: False
 formatters:
-    simple:
-        format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    complex:
-        format: '[%(levelname)-7.7s] [%(asctime)s] [%(funcName)20s()] L%(lineno)d %(message)s'
+  simple:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  complex:
+    format: '[%(levelname)-7.7s] [%(asctime)s] [%(funcName)20s()] L%(lineno)d %(message)s'
+
+filters:
+  contextFilter:
+    '()': utils.log_context_filter.LogContextFilter
 
 handlers:
-    console:
-        class: logging.StreamHandler
-        level: DEBUG
-        formatter: complex
-        stream: ext://sys.stdout
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: complex
+    stream: ext://sys.stdout
 
-    async_tcp_handler:
-      class: logstash_async.handler.AsynchronousLogstashHandler
-      host: fluent-bit.infra
-      port: 5170
-      database_path: 'logstash.db'
+  async_tcp_handler:
+    class: logstash_async.handler.AsynchronousLogstashHandler
+    host: fluent-bit.infra
+    port: 5170
+    database_path: 'logstash.db'
+    filters: ['contextFilter']
+
 
 loggers:
-    utils:
-        level: DEBUG
-        handlers: [console]
-        propagate: true
+  utils:
+    level: DEBUG
+    handlers: [console]
+    propagate: true
 
 root:
-    level: DEBUG
-    handlers: [console, async_tcp_handler]
+  level: DEBUG
+  handlers: [console, async_tcp_handler]
